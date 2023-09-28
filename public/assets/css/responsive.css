@@ -1,0 +1,121 @@
+
+
+/* PC :<=1024px */ 
+@media (min-width: 64em) {
+    
+}
+
+/* Tablet  >=740 &&  <= 1023px   */
+@media (min-width: 46.25em) and (max-width:63.9375em){
+    
+}
+
+/* Tablet + Mobile     <=  1023px*/
+@media (max-width: 63.9375em) {
+    .btn{
+        padding: 16px 20px;
+    }
+
+    .contact .contact-submit-btn{
+        font-size:16px;
+    }
+
+    .contact-body .form-control{
+        padding: 15px 20px;
+    }
+    .icon-row{
+        fornt-size:48px;
+    }
+
+    /* fix UX */
+    #footer .icon-row a {
+       
+        padding: 0 8px;
+    }
+
+    #footer .copyright a {
+        
+        padding: 8px 0;
+    }
+    .in4-contact {
+        line-height: 2.1;
+    }
+}
+
+/* Mobile <739px */
+@media (max-width: 46.1875em) {
+
+    
+    #nav{
+        display: block;
+    }
+    
+    #nav .subnav{
+        position: initial;
+        background-color: #000;
+        
+    }
+    /* Chỉnh sửa subnav (sample k có) */
+    #nav .subnav a{
+        color: white;
+        padding: 1px 41px;
+    }
+
+
+    /* Làm cho p tử của nav theo hàng dọc */
+    #nav >li {
+        display: block;
+    }
+    /* cho đẹp */
+    #nav li a {
+        padding: 1px 24px;
+    }
+
+
+    /* Header trên mobile , li đầu tiên gọn vào để còn chỗ cho các thứ khác */
+    #nav>li:first-child{
+        display: inline-block;
+    }
+
+    /* sửa cho mobile hiện lên trên header */
+    #header .mobile-menu-btn{
+        display: block;
+    }
+
+    /* K hiển thị trên mobile */
+    #header .search-btn {
+        display: none;
+    }
+
+    /* Menu theo hàng dọc nên cần để nav k hiện lên khi chưa ấn vào menu-icon */
+    #header{
+        overflow: hidden;
+    }
+
+    /* PlaceImg's width tăng sẽ đẩy các imgs khác xuống => imgs theo cột  */
+    .s-col-full {
+        width: 100% !important;
+    }
+
+    
+
+    /* adjust img=60% box    : để img theo hàng dọc*/
+    #content .member-image {  
+        width: 60%;
+    }
+
+    #contact .contact-form {
+        margin-top:32px;
+    }
+
+    /* Chỉnh margin của Email */
+    .s-mt-8{
+        margin-top:8px !important;
+    }
+
+    /* Adjust btn send */
+    .s-full-width{
+        width: 100% !important;
+    }
+    
+}

@@ -1,0 +1,45 @@
+https://www.w3schools.com/w3css/tryw3css_templates_band.htm#
+
+1.Phân tích->OK
+    Header
+    Slider
+    Content
+        about
+        tour
+        contact
+        image
+    footer
+    
+2.Dựng base
+3.Xây dựng theo phân tích
+4.Hoàn thiện
+
+
+Những thành phần trên giao diện
+1.Header (đầu trang)
+2.Navigation (điều hướng)
+3.Breadcrumb (đường dẫn)
+4.sidebar ()
+5.Slider ()
+6.Content ()
+7.banner ()
+8.footer ()
+
+Fixed : cố định
+
+relative : tương đối , k bị phụ thuộc
+(phụ thuộc chính nó)
+
+
+relative : cha
+absolute : con
+=> Con phụ thuộc cha
+
+flexbox : flex + relative
+
+
+NPM RUN BUILD
+thêm build trong package.json ( chạy webpack = npm run build)
+=> bundling index.js -> bundle.js
+
+fix times : https://bobbyhadz.com/blog/react-module-not-found-cant-resolve-firebase

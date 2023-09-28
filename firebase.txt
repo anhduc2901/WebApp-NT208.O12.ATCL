@@ -1,0 +1,7 @@
+firebase init hosting
+
+firebase deploy --only hosting:webapp-46e31
+
+
+DB :
+https://www.youtube.com/watch?v=2yNyiW_41H8

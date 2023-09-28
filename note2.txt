@@ -1,0 +1,7 @@
+users
+    alovelace
+    first : "Ada"
+    last : "Lovelace"
+    born : 1815
+
+const alovelaceDocumentRef = doc(db, 'users', 'alovelace');

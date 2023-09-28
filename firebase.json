@@ -1,0 +1,11 @@
+{
+  "hosting": {
+    "public": "public",
+    "hosting":"webapp-46e31",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  }
+}
