@@ -9,7 +9,7 @@ import { getFirestore , collection ,onSnapshot,
           addDoc, deleteDoc, doc,
           query, where,
           orderBy, serverTimestamp,
-          getDoc, updateDoc
+          getDoc, updateDoc,get
 } from "firebase/firestore";
 
 import { getAuth ,
@@ -17,6 +17,7 @@ import { getAuth ,
         signOut,signInWithEmailAndPassword,
         onAuthStateChanged
 } from "firebase/auth";
+
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -45,10 +46,14 @@ const analytics = getAnalytics(app);
 const db = getFirestore()
 const auth = getAuth()
 
+
+
 //Collection ref
 const colRef_theband_collection=collection(db,'theband_collection')
 const colRef_contact=collection(db,'Contact')
 const colRef_Tour_Ticket = collection(db,'Tickets')
+const colRef_user_collection=collection(db,'users')
+
 
 // Queries
 
@@ -61,13 +66,13 @@ const q = query(colRef_theband_collection,orderBy('CreateAt')); // default : asc
 
 
             // READ DATA
-var data = onSnapshot(q,(snapshot)=>{
-  let infor=[]
-  snapshot.docs.forEach(doc=>{
-    infor.push({...doc.data(),id:doc.id})
-    })
-    console.log(infor);   
-})
+// var data = onSnapshot(q,(snapshot)=>{
+//   let infor=[]
+//   snapshot.docs.forEach(doc=>{
+//     infor.push({...doc.data(),id:doc.id})
+//     })
+//     console.log(infor);   
+// })
     
 //                SENDING
 // user data (Contact form)
@@ -106,7 +111,7 @@ const modal_form = document.querySelector('.js-modal-BuyTickets')
 
     // Theband_collection  by id
 
-const test_field = document.querySelector('.js-DeleteTheBandCollection')
+const test_field = document.querySelector('.js-DelTheBandCollection')
   test_field.addEventListener('submit',(e)=>{
     e.preventDefault();
     const tempRef = doc(db,'theband_collection',test_field.id.value)
@@ -140,9 +145,9 @@ const test_field = document.querySelector('.js-DeleteTheBandCollection')
 
 const docRef = doc(db,"theband_collection",'hgxxIxeaTvftenYrYNZg');
 
-onSnapshot(docRef,(doc)=>{
-  console.log(doc.data(),doc.id)
-})
+// onSnapshot(docRef,(doc)=>{
+//   console.log(doc.data(),doc.id)
+// })
 
 
 // Update by id
@@ -165,25 +170,41 @@ onSnapshot(docRef,(doc)=>{
 // SIGN UP
 const signupForm=document.querySelector('.js-signup-form')
 signupForm.addEventListener('submit',(e)=>{
-  e.preventDefault();
-  const email = signupForm.email.value;
-  const password = signupForm.password.value;
-  createUserWithEmailAndPassword(auth,email,password)
-  .then((cred)=>{
-      console.log(`User created : `,cred.user)
-      signupForm.reset()
+    e.preventDefault();
+    const email_real = signupForm.email.value;
+    const password_real = signupForm.password.value;
+    createUserWithEmailAndPassword(auth,email_real,password_real)
+    .then((cred)=>{
+        console.log(`User created : `,cred.user)
+        signupForm.reset()
+    // Close signupModal
+    const SignupModal= document.querySelector('.js-modal-Signup')
+    SignupModal.classList.remove('open');
+    })
+    .catch((error)=>{
+      console.log(error.message)
+    })
+
+     // Thêm data vào collection users  
+      const docRef =  addDoc(collection(db, colRef_user_collection), {
+          email: email_real,
+          password: password_real,
+          isAdmin:'false',
+          CreateAt : serverTimestamp()
+        });
+      
+      
+      console.log("Document written with ID: ", docRef.id);
+      
 
   })
-  .catch((error)=>{
-    console.log(error.message)
-  })
-})
 
 
-// Log in and Log out 
+//  Log out 
 const LogoutButton = document.querySelector('.logout-button')
 LogoutButton.addEventListener('click', ()=>{
     signOut(auth)
+
     .then(()=>{
       alert('You have been signed out !')
       // console.log('You have been signed out !')
@@ -193,6 +214,8 @@ LogoutButton.addEventListener('click', ()=>{
     })
 })
 
+
+// Log in 
 const LoginForm = document.querySelector('.js-login-form')
 LoginForm.addEventListener('submit', (e)=>{
   e.preventDefault();
@@ -203,12 +226,18 @@ LoginForm.addEventListener('submit', (e)=>{
   .then((cred)=>{
     alert(`You have been loged in`,cred.user)
     // console.log(`You have been loged in`,cred.user)
-    
+
+    // Close modal
+    const modalLogin = document.querySelector('.js-modal-login');
+    modalLogin.classList.remove('open');
+
   })
   .catch( err =>{
     alert(`Wrong user email :  ${email} or password !`);
     console.log(err.message)
   })
+
+
 })
 
 // Subscribing to auth changes
@@ -226,4 +255,111 @@ onAuthStateChanged(auth,(user)=>{
 //   console.log('unsubcribing')
 //   data()
 // })
+
+// 
+
+
+// Data từ database hiện lên trang html
+// const theband_data_form = document.querySelector('.theband_data_form');
+
+// var data = onSnapshot(colRef_theband_collection,(snapshot)=>{
+//   // let infor=[]
+//   let html='';
+//   snapshot.docs.forEach(doc=>{
+
+//     // infor.push({...doc.data(),id:doc.id})
+
+//     const li=`
+//       <li>
+//           <div class="collapsible-header grey lighten-4">Id : ${doc.id} </div>
+//           <div class="collapsible-body white">Last name : ${doc.data().last}</div>
+//           <div class="collapsible-body white">Birth : ${doc.data().born}</div>
+//       </li>
+//     `;
+//     html+=li;
+
+//     })
+//     theband_data_form.innerHTML = html;
+
+//     // console.log(infor);
+    
+// })
+
+
+// <!-- Click vào collapsible-header -->
+
+// // Lấy phần tử form có lớp là "collapsible"
+// const formElement = document.querySelector('.collapsible');
+// // Lấy tất cả các phần tử <li> trong form
+// const listItemsInForm = formElement.querySelectorAll('li');
+// // Đếm số lượng phần tử <li>
+// const numberOfListItems = listItemsInForm.length; 
+
+//         // Lấy tất cả các phần tử .collapsible-header trong DOM
+//         const collapsibleHeaders = document.querySelectorAll('.collapsible-header');
+
+//         // Lặp qua từng phần tử .collapsible-header và thêm sự kiện click
+//         collapsibleHeaders.forEach(header => {
+//         header.addEventListener('click', function() {
+//             // Tìm phần tử .collapsible-body cùng cấp với .collapsible-header
+//             for(var i=0;i<numberOfListItems;i++){
+//               if(i==0){
+//                  i = this.nextElementSibling;
+//               }
+//               else
+//               {
+//                   i= (i+1).nextElementSibling;
+                
+//               }
+//               // Kiểm tra trạng thái hiển thị của .collapsible-body
+//               if (i.style.display === 'none' || i.style.display === '') {
+//               // Nếu đang ẩn, hiển thị .collapsible-body
+//               i.style.display = 'block';
+  
+//               } else {
+//               // Nếu đang hiển thị, ẩn .collapsible-body
+//               i.style.display = 'none';
+  
+//               }
+//             }
+            
+//         });
+//         });     
+     
+
+
+
+// Chuyển hướng page admin khi admin đăng nhập
+
+// auth.onAuthStateChanged(user=>{
+//   if(user)
+//   {
+//     const nav=document.getElementById('nav');
+//     var data = onSnapshot(colRef_user_collection,(snapshot)=>{
+//         snapshot.docs.forEach(doc=>{
+//           if(doc.data().isNormal == "false" ){
+
+//             console.log(typeof (doc.data().isAdmin));
+//             console.log('value : ', (doc.data().isAdmin));
+            
+
+//             var html=`<li><a href="./admin.html">Go to admin page</a></li>`;
+//             nav.insertAdjacentHTML('beforeend', html);
+//             alert("Loged in as admin ! ");
+
+//           }
+//           else if(doc.data().isNormal == "true"){
+//             var LastItem = nav.querySelector('li:last-child');
+//             if (LastItem && LastItem.textContent.trim() === 'Go to admin page') {
+//               nav.removeChild(LastItem);
+//             }
+//             alert("Loged in as normal user ! ");
+//           }
+//           })        
+//       })
+//   }
+// })
+
+
+
 

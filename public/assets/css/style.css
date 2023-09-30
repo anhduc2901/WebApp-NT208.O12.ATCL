@@ -421,6 +421,12 @@ h2 {
     animation: modalFadeIn ease 1s;
 }
 
+
+.container-theband{
+    height: 800px;
+    width: 100%;
+}
+
 header.modal-header {
     height: 130px;
     background-color: #009688!important;
@@ -506,6 +512,11 @@ button.modal-btn:hover {
 .js-modal-Signup.open{
     display: flex;
    
+}
+
+.collapsible-body .open{
+    display: flex !important;
+    
 }
 
 
@@ -606,24 +617,66 @@ button.modal-btn:hover {
 }
 
 
-#test{
-    height: 400px;
+.test{
+    min-height: 500px;
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: center ;
 }
 
-#test .box {
+.test .box {
     position: relative;
     left: 0;
     right: 0;
     width: calc(100%/3);
-    background-color:pink; 
+    display: inline-block;
 }
-
+.js-DelTheBandCollection .test-input {
+    width: 50% !important;
+}
 
 #test #email {
     width: 80%;
 }
 
+
+.collapsible-header{
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    line-height: 1.5;
+    padding: 1rem;
+    background-color: #fff;
+    border-bottom: 1px solid #ddd;
+}
+
+.collapsible-body {
+    display: none;
+    border-bottom: 1px solid #ddd;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 2rem;
+}
+
+.grey.lighten-4 {
+    background-color: #f5f5f5 !important;
+}
+.grey {
+    background-color: #9e9e9e !important;
+}
+
+.container-theband .ul{
+    list-style-type: none !important;
+
+
+}
+
+.container-theband .li{
+    list-style: none !important;
+    
+
+}

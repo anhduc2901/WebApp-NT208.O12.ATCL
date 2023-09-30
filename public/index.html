@@ -10,6 +10,9 @@
     <link rel="stylesheet" href="./assets/css/style.css">
     <link rel="stylesheet" href="./assets/font/themify-icons/themify-icons.css">
     <link rel="stylesheet" href="./assets/css/responsive.css">
+
+    
+    
     <!-- DB -->
 
     
@@ -249,18 +252,34 @@
         <!-- TEST -->
         
          
-        <form action="" class="js-DeleteTheBandCollection">
+        <form action="" class="js-DelTheBandCollection">
             
-                <div class="box row" id="test">
-                    <label for="id">ID : </label>
-                    <input type="text" name="id" required>
-                    <button >DELETE</button>
+                <div class="row test" >
+                    <div class="box">
+                        <label for="id">ID : </label>
+                        <input class="test-input" type="text" name="id" required>
+                        <button class="test-btn">DELETE</button>
+                    </div>
+                    
                 </div>
                
             
         </form>
-       
 
+
+        <!-- the band LIST -->
+    <!-- <div class="container-theband row test" style="margin-top: 40px;">
+        <ul class="collapsible z-depth-0 theband_data_form box" style="border: none;">
+            <li>
+                <div class="collapsible-header grey lighten-4">Id : ${doc.id} </div>
+                <div class="collapsible-body white">Last name : ${doc.data().last}</div>
+                <div class="collapsible-body white">Birth : ${doc.data().born}</div>
+            </li>
+        
+        </ul>
+    </div> -->
+       
+       
 
     </div>      <!-- End of Main -->
     
@@ -430,8 +449,7 @@
     </div>
         <!-- MODAL -->
 
-
-
+ 
     
 
     
@@ -526,8 +544,8 @@
         function(event){
             event.stopPropagation()
         })
-        
-        
+
+                
     </script>
 
 
@@ -536,39 +554,40 @@
 
 
     <!-- Đóng mở menu khi đang ở Mobile -->
+    <!-- Click vào menu trên mobile thì mở menu , đang mở thì đóng -->
     <script>
         var header = document.getElementById('header'); 
         var mobileMenu = document.getElementById('mobile-menu');
-        var headerHeight=header.clientHeight; // chiều cao của header
+        var headerHeight=header.clientHeight; // chiều cao ban đầu của header
         // sự kiện click menu trên mobile
         mobileMenu.onclick = function() {
             var isClose = header.clientHeight === headerHeight;
             if (isClose) {
                 header.style.height ='auto';
             }
-            // khi đang mở mà click thì = null sẽ kế thừa height ban đầu
+            // khi đang mở mà click thì = null (sẽ kế thừa height ban đầu)
             else{
                 header.style.height = null; 
             }
         }
 
-    // Tự động đóng menu khi click  các phần tử trong đó
+    // <!-- Tự động đóng menu khi click  subnav -->
     var menuItems=document.querySelectorAll('#nav li a[href*="#"]');
         for(var i=0;i<menuItems.length;i++)
         {
             var menuItem = menuItems[i];
             
-            // Nếu nav k có subnav mới ẩn menu đi
             menuItem.onclick = function(event){
                 // Tạo biến lưu nav có subnav
                 var isParentMenu = this.nextElementSibling 
                 && this.nextElementSibling.classList.contains('subnav');
                 if(isParentMenu){
-                    // có subnav => ẩn deafult nav (#) 
+                    // k chuyển hướng
                     event.preventDefault();
                    
                 }
                 else{
+                    // là subnav => ẩn nav (#) 
                     header.style.height = null;
                 }
             }
@@ -583,7 +602,7 @@
 
 <!-- DB -->
 
-<script type="module" src="../dist/bundle.js">
+<script type="module" src="../dist/bundle.js" >
     
 </script>
    
