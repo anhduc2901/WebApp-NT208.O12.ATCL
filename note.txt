@@ -46,17 +46,25 @@ fix times : https://bobbyhadz.com/blog/react-module-not-found-cant-resolve-fireb
 
 
 
-Xóa branch
+git status          git logs
 
-git branch -D <branch-name>
+Miêu tả tước khi push 
+    git commit -m ""
+
+Xóa branch
+    git branch -D <branch-name>
 
 Chuyển Nhánh
-
-git checkout <branch-name>
+    git checkout <branch-name>
 
 Lấy Cập Nhật Từ GitHub
+    git pull origin <branch-name>
 
-git pull origin <branch-name>
+Liên kết vs remote repository
+    git remote add origin <repository-url>
+
+khởi tạo một local Git repository
+    git init
 
 
 
