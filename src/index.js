@@ -9,7 +9,7 @@ import { getFirestore , collection ,onSnapshot,
           addDoc, deleteDoc, doc,
           query, where,
           orderBy, serverTimestamp,
-          getDoc, updateDoc,get
+          getDoc, updateDoc,get, getDocs
 } from "firebase/firestore";
 
 import { getAuth ,
@@ -24,6 +24,7 @@ import { getAuth ,
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+
 const firebaseConfig = {
   apiKey: "AIzaSyCORWK6LpUJtm8YczHaVAZw9t9n9D9e5t8",
   authDomain: "web-app-2de6d.firebaseapp.com",
@@ -143,7 +144,7 @@ const test_field = document.querySelector('.js-DelTheBandCollection')
             
 // Read single document
 
-const docRef = doc(db,"theband_collection",'hgxxIxeaTvftenYrYNZg');
+// const docRef = doc(db,"theband_collection",'hgxxIxeaTvftenYrYNZg');
 
 // onSnapshot(docRef,(doc)=>{
 //   console.log(doc.data(),doc.id)
@@ -175,8 +176,22 @@ signupForm.addEventListener('submit',(e)=>{
     const password_real = signupForm.password.value;
     createUserWithEmailAndPassword(auth,email_real,password_real)
     .then((cred)=>{
-        console.log(`User created : `,cred.user)
+        alert(`User created : `,cred.user)
         signupForm.reset()
+
+      onAuthStateChanged(auth, (user) => {
+    // Thêm data vào collection users  
+      addDoc(colRef_user_collection,{
+        name: '',
+        email:`${email_real}`,
+        password:`${password_real}`,
+        CreateAt : serverTimestamp(),
+        isAdmin:"false",
+        UID:`${user.uid}`
+      })
+    })
+    console.log("Document written with ID: ", docRef.id);
+
     // Close signupModal
     const SignupModal= document.querySelector('.js-modal-Signup')
     SignupModal.classList.remove('open');
@@ -185,16 +200,7 @@ signupForm.addEventListener('submit',(e)=>{
       console.log(error.message)
     })
 
-     // Thêm data vào collection users  
-      const docRef =  addDoc(collection(db, colRef_user_collection), {
-          email: email_real,
-          password: password_real,
-          isAdmin:'false',
-          CreateAt : serverTimestamp()
-        });
-      
-      
-      console.log("Document written with ID: ", docRef.id);
+     
       
 
   })
@@ -206,8 +212,18 @@ LogoutButton.addEventListener('click', ()=>{
     signOut(auth)
 
     .then(()=>{
+      
+      // Lấy tham chiếu đến phần tử  muốn xóa
+      const elementToRemove = document.querySelector('#nav li a[href="./admin.html"]');
+
+      // Kiểm tra xem phần tử có tồn tại không trước khi xóa
+      if (elementToRemove) {
+        // Sử dụng remove() để xóa phần tử
+        elementToRemove.parentElement.remove(); // Xóa <li> chứa liên kết
+      }
+
       alert('You have been signed out !')
-      // console.log('You have been signed out !')
+
     })
     .catch((error)=>{
       alert(error.message)
@@ -216,29 +232,27 @@ LogoutButton.addEventListener('click', ()=>{
 
 
 // Log in 
-const LoginForm = document.querySelector('.js-login-form')
+const LoginForm = document.querySelector('.js-login-form');
 LoginForm.addEventListener('submit', (e)=>{
+  const email_login =LoginForm.email.value
+  const password_login = LoginForm.password.value
   e.preventDefault();
-  const email =LoginForm.email.value
-  const password = LoginForm.password.value
-
-  signInWithEmailAndPassword(auth,email,password)
-  .then((cred)=>{
-    alert(`You have been loged in`,cred.user)
-    // console.log(`You have been loged in`,cred.user)
-
+  signInWithEmailAndPassword(auth,email_login,password_login)
+  .then((userCredential)=>{
+    alert(`You have been loged in`,userCredential.user)
     // Close modal
     const modalLogin = document.querySelector('.js-modal-login');
     modalLogin.classList.remove('open');
 
+    LoginForm.reset();
+
   })
-  .catch( err =>{
-    alert(`Wrong user email :  ${email} or password !`);
+  .catch((error) => {
+    alert(`Wrong user email :  ${email_login} or password !`);
     console.log(err.message)
-  })
+  });
+});
 
-
-})
 
 // Subscribing to auth changes
 
@@ -329,36 +343,28 @@ onAuthStateChanged(auth,(user)=>{
 
 
 
-// Chuyển hướng page admin khi admin đăng nhập
+// Thêm cái chuyển hướng page admin khi admin đăng nhập
 
-// auth.onAuthStateChanged(user=>{
-//   if(user)
-//   {
-//     const nav=document.getElementById('nav');
-//     var data = onSnapshot(colRef_user_collection,(snapshot)=>{
-//         snapshot.docs.forEach(doc=>{
-//           if(doc.data().isNormal == "false" ){
-
-//             console.log(typeof (doc.data().isAdmin));
-//             console.log('value : ', (doc.data().isAdmin));
-            
-
-//             var html=`<li><a href="./admin.html">Go to admin page</a></li>`;
-//             nav.insertAdjacentHTML('beforeend', html);
-//             alert("Loged in as admin ! ");
-
-//           }
-//           else if(doc.data().isNormal == "true"){
-//             var LastItem = nav.querySelector('li:last-child');
-//             if (LastItem && LastItem.textContent.trim() === 'Go to admin page') {
-//               nav.removeChild(LastItem);
-//             }
-//             alert("Loged in as normal user ! ");
-//           }
-//           })        
-//       })
-//   }
-// })
+auth.onAuthStateChanged(user=>{
+  // đăng nhập thành công
+  if(user)
+  {
+    const userUID=user.uid;
+    const nav=document.getElementById('nav');
+   
+    var data = onSnapshot(colRef_user_collection,(snapshot)=>{
+        snapshot.docs.forEach(doc=>{
+          // Kiểm tra có phải admin không
+          if(doc.data().isAdmin == "true" && doc.data().UID == userUID ){
+            console.log('isAdmin ? value : ', (doc.data().isAdmin));
+            var html=`<li><a href="./admin.html">Go to admin page</a></li>`;
+            nav.insertAdjacentHTML('beforeend', html);
+            alert("Loged in as admin ! ");
+          }  
+          })        
+      })
+  }
+});
 
 
 

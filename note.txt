@@ -43,3 +43,35 @@ thêm build trong package.json ( chạy webpack = npm run build)
 => bundling index.js -> bundle.js
 
 fix times : https://bobbyhadz.com/blog/react-module-not-found-cant-resolve-firebase
+
+
+
+Xóa branch
+
+git branch -D <branch-name>
+
+Chuyển Nhánh
+
+git checkout <branch-name>
+
+Lấy Cập Nhật Từ GitHub
+
+git pull origin <branch-name>
+
+
+
+Front end : 
+	1.Trang admin
+	1.xử lý admin 
+
+	2.trang cá nhân	
+	Buy tickets
+	=> trang mới
+	=>pop up
+	2.xử lý
+
+	2.trang cá nhân
+	
+	
+	
+	
