@@ -66,6 +66,7 @@ Liên kết vs remote repository
 khởi tạo một local Git repository
     git init
 
+git merge
 
 
 Front end : 
